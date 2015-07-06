@@ -9,6 +9,8 @@ import ClusterPoint
 import Cluster
 import math
 import numpy as np
+'''import matplotlib
+matplotlib.use('agg')'''
 import matplotlib.pyplot as plt
 import matplotlib.colors
 from mpl_toolkits.mplot3d import Axes3D
@@ -102,6 +104,8 @@ def main():
 	first = False
 	dimensions = 0
 	list_points = []
+
+	#read in all the points in the file
 	for line in f:
 		#print (line)
 		if (first != True):
@@ -111,10 +115,13 @@ def main():
 			if (len(line.split()) != dimensions):
 				print("invalid format of data file")
 				return
-
+		#create a point based on location
 		current_point = createPoint(line)
 		list_points.append(current_point)
+	#create clusters
 	clusterList = clusterify(list_points,clusterNumber, dimensions)
+
+	#find radius of each cluster
 	for q in clusterList:
 		q.defineBounds()
 
@@ -141,33 +148,33 @@ def main():
 			f.write("\n")
 	print("Finished creating clusters. Cluster information in clusters file.")
 
-	#plot the results (only for 2 dimensional analysis)
+	#plot the results (only for 2d)
 	f = open("clusters", "r")
-	N = 50
-	colors=np.random.rand(N)
-	list_colors=['g', 'b', 'k', 'm', 'y']
 	newcluster=False
 	count = -1
+	tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
+	#go through clusters and their points to plot them
 	for line in f:
 		line_array = line.split(' ')
 		if (line_array[0] != "$"):
+			#change color for new cluster
+			tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
 			newcluster=True
 			radius=line_array[0]
-			##only for two dimensional
 			xcoord=line_array[1]
 			ycoord=line_array[2]
-			plt.plot(xcoord, ycoord, 'ro')
+			plt.scatter(xcoord, ycoord,c='r') #plot the center of the cluster in red
 		else:
 			if (newcluster == True):
 				count += 1
 			newcluster = False
 			xcoord = line_array[1]
 			ycoord = line_array[2]
-			tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
-			print(tuple2)
-			#string3 = "" % tup
-			plt.plot(xcoord, ycoord, color=(0.2,0.4,0.3))
+			plt.scatter(xcoord, ycoord,c=tuple2) #plot the cluster point
 	plt.show()
+
+	#This is for 3d plotting
+
 	'''
 	#plot the results (only for 3 dimensional analysis)
 	fig = plt.figure()
@@ -193,14 +200,6 @@ def main():
 			ax.scatter(xcoord, ycoord, zcoord,c=list_colors[count % 5],marker='o')
 	plt.show()'''
 
-
-
-
-
-	testData = input("Enter name of testing data file: ") 
-	g = open(testData, 'r') #g is file reader to training data file 
-
-		
 
 
 
