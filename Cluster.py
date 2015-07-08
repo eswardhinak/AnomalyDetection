@@ -2,7 +2,7 @@
 	Class Cluster holds a list of points that are in that cluster and has methods
 	to updates its location when the cluster includes new points
 """
-import math 
+import math
 
 class Cluster:
 	dimensions = 0	#static variable (every cluster has same number of dimensions)
@@ -15,9 +15,7 @@ class Cluster:
 		#goes through cluster points and averages their locations to find the center
 		for i in range(0, self.dimensions):
 			total = 0
-			print ("DIMENSIONS---%d" % self.dimensions)
 			for j in self.clusterpoints:
-				print ("LENTHTHTHTHT: %d" % len(j.coordinateList))
 				total += j.coordinateList[i]
 			self.clusterlocation[i] = total / (len(self.clusterpoints))
 
@@ -31,7 +29,7 @@ class Cluster:
 		self.clusterpoints.append(clusterpoint)	#adds initial point to cluster
 		self.dimensions = dimensions
 		self.radius = 0
-		self.updateClusterLocation()	#updates location 
+		self.updateClusterLocation()	#updates location
 
 
 	"""
@@ -69,4 +67,8 @@ class Cluster:
 
 		self.radius = max_radius
 
-
+	'''
+		method to add a point to this cluster
+	'''
+	def addPoint(self, point):
+		self.clusterpoints.append(point)
