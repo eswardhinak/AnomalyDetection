@@ -139,6 +139,7 @@ def kMeansClustering(pointList, clusterNumber, dimensions):
 
 	#build the correct number of clusters
 	while (count < clusterNumber):
+		print (float(count)/float(clusterNumber) * 100)
 		bestDistance = 0
 		bestIndex = 0
 		#go through the point list
@@ -169,7 +170,8 @@ def kMeansClustering(pointList, clusterNumber, dimensions):
 			clusterList[closestIndex].addPoint(k)				#add the point ot its nearest cluster
 
 	return clusterList
-
+def anomalyDetect():
+	pass
 def main():
 	print ("Beginning Program...")
 	data_file = input("Enter name of training data file: ")
@@ -218,7 +220,7 @@ def main():
 				f.write("%f " % g)
 			f.write("\n")
 	print("Finished creating clusters. Cluster information in clusters file.")
-
+	'''
 	#plot the results (only for 2d)
 	f = open("clusters", "r")
 	newcluster=False
@@ -269,9 +271,51 @@ def main():
 			zcoord=float(line_array[3])
 			ax.scatter(xcoord, ycoord, zcoord,c=tuple2)
 	plt.show()
+'''
+	testFile = input("Enter path to testing file")
+	q = open(testFile, 'r')
+	r = open('result', 'w')
+	first = True
+	for line in q:
+		if (first == True):
+			first = False
+			if (len(line.split()) != dimensions):
+				print("Wrong # of Dimensions: Exiting.")
+				return 
+		currPoint = createPoint(line)
+		f = findClosestCluster(currPoint, clusterList1)
+		dist = calcDistance(currPoint, clusterList1[f])
+		if (dist < clusterList1[f].radius):
+			r.write("%d 0.00\n" % f)
+		else:
+			r.write("%d %f\n" % (f, (dist - clusterList1[f].radius)))
 
-
-
-
+	#plot the results (only for 2d)
+	f = open("clusters", "r")
+	g = open("test", "r")
+	newcluster=False
+	count = -1
+	tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
+	#go through clusters and their points to plot them
+	for line in f:
+		line_array = line.split(' ')
+		if (line_array[0] != "$"):
+			#change color for new cluster
+			tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
+			newcluster=True
+			radius=line_array[0]
+			xcoord=line_array[1]
+			ycoord=line_array[2]
+			plt.scatter(xcoord, ycoord,c='r') #plot the center of the cluster in red
+		else:
+			if (newcluster == True):
+				count += 1
+			newcluster = False
+			xcoord = line_array[1]
+			ycoord = line_array[2]
+			plt.scatter(xcoord, ycoord,c=tuple2) #plot the cluster point
+	plt.show()
+	for line in g:
+		line_array = line.split(' ')
 
 if __name__ == "__main__": main()	#program start
