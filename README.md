@@ -32,6 +32,7 @@ This is 3 dimensions. It is sort of hard to see what is going on. Although some 
 Things To Do: 
 I will be figuring out how to normalize points so that I can use data.gov data to see the algorithms performance. I will need to normalize because different dimensions values can range but their effect on the anomaly should be the same.
 
+-- Need to make the center of the clusters the actual centers. Right now they are the first points that are the center. 
 
 
 

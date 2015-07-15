@@ -289,7 +289,25 @@ def main():
 			r.write("%d 0.00\n" % f)
 		else:
 			r.write("%d %f\n" % (f, (dist - clusterList1[f].radius)))
+	r.close()
 
+	s = open('result', 'r')
+	total = 0
+	anomalous = 0
+	unanomalous = 0
+	for line in s:
+		point_info = line.split()
+		closest_cluster = point_info[0]
+		anomaly_score = point_info[1]
+		if (float(anomaly_score) < 0.000001):
+			unanomalous += 1
+		else:
+			anomalous += 1
+		total += 1
+	print ("Percentage of anomalous points over total: %f" % float(anomalous / total))
+
+
+'''
 	#plot the results (only for 2d)
 	f = open("clusters", "r")
 	g = open("test", "r")
@@ -297,6 +315,7 @@ def main():
 	count = -1
 	tuple2 = (float(randint(0,100)/100), float(randint(0,100)/100), float(randint(0,100)/100))
 	#go through clusters and their points to plot them
+
 	for line in f:
 		line_array = line.split(' ')
 		if (line_array[0] != "$"):
@@ -314,8 +333,13 @@ def main():
 			xcoord = line_array[1]
 			ycoord = line_array[2]
 			plt.scatter(xcoord, ycoord,c=tuple2) #plot the cluster point
-	plt.show()
 	for line in g:
 		line_array = line.split(' ')
+		xcoord=line_array[0]
+		ycoord=line_array[1]
+		plt.scatter(xcoord,ycoord,c='k')
+
+	plt.show()
+'''
 
 if __name__ == "__main__": main()	#program start
