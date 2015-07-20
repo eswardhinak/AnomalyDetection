@@ -29,7 +29,8 @@ def createPoint(line):
 	This does the original naive clustering. It first creates a solo cluster for every point. Then it invokes the combine
 	clusters method to combine nearest clusters. This entire approach had a pretty bad runtime
 	If the number of points was V and the number of clusters to form was C. The runtime was (V-C)*(V*V) --> O(V^3)
-	That runtime is comptued for the entire clusterin approach, not just the below function. This includes the call to combineClusters()
+	That runtime is comptued for the entire clusterin approach, not just the below function. This includes the call to 
+	combineClusters()
 '''
 def clusterify(list_points, clusterNumber, dimensions):
 	count = 0
@@ -118,13 +119,13 @@ def findClosestCluster(point, clusterList):
 	for c in range(0, len(clusterList)):
 		currDistance = calcDistance(point, clusterList[c])
 		if (currDistance < closestDistance):
-			closestDistnace = currDistance
+			closestDistance = currDistance
 			closestClusterIndex = c
 	return closestClusterIndex
 
 '''
-	This is the better approach to clustering. It randomly picks a first cluster. Then it chooses the rest of the clusters, by choosing points
-	that are the furthest away from each of the rest of the already chosen clusters. 
+	This is the better approach to clustering. It randomly picks a first cluster. Then it chooses the rest of the clusters, 
+	by choosing points that are the furthest away from each of the rest of the already chosen clusters. 
 '''
 def kMeansClustering(pointList, clusterNumber, dimensions):
 	clusterList = [] #list of clusters
@@ -159,7 +160,8 @@ def kMeansClustering(pointList, clusterNumber, dimensions):
 				if (averageDistance > bestDistance):
 					bestDistance = averageDistance
 					bestIndex = j
-		clusterList.append(Cluster.Cluster(pointList[bestIndex], dimensions))	#create a cluster for the best point and add it to cluster list
+		#create a cluster for the best point and add it to cluster list
+		clusterList.append(Cluster.Cluster(pointList[bestIndex], dimensions))	
 		indexSet.add(bestIndex)
 		count+=1
 
@@ -307,7 +309,6 @@ def main():
 	print ("Percentage of anomalous points over total: %f" % float(anomalous / total))
 
 
-'''
 	#plot the results (only for 2d)
 	f = open("clusters", "r")
 	g = open("test", "r")
@@ -340,6 +341,5 @@ def main():
 		plt.scatter(xcoord,ycoord,c='k')
 
 	plt.show()
-'''
 
 if __name__ == "__main__": main()	#program start

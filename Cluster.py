@@ -72,3 +72,4 @@ class Cluster:
 	'''
 	def addPoint(self, point):
 		self.clusterpoints.append(point)
+		#self.updateClusterLocation
